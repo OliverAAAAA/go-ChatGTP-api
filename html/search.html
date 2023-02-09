@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<style>
+
+</style>
+<head>
+    <title>公众号:宝藏秘密基地Plus</title>
+</head>
+<body>
+<h1 style="color: aqua;font-size: 50px;text-align: center">ChatGPT-在线问答</h1>
+<h1 style="color: red;font-size: 38px;text-align: center">由于国外站点请求响应慢，平均30s以上，点击确定后，请耐心等待...^.^</h1>
+<h5 style="color: #c338fc;text-align: center">联系作者:378781281@qq.com</h5>
+<div style="display: flex;align-items: center;justify-content: center;margin-bottom: 20px">
+    更多好玩的:
+    <a style="margin-right: 20px "  href='http://api.oliver.pub/page/taobao'>淘宝优惠券搜索引擎</a>
+    <a style="margin-right: 20px "  href='http://api.oliver.pub/page/catchme'>你不可能抓住我！</a>
+    <a style="margin-right: 20px "  href='http://api.oliver.pub/page/gobang'>五子棋</a>
+    <a style="margin-right: 20px "  href='http://api.oliver.pub/page/killstar '>消灭星星</a>
+    <a style="margin-right: 20px "  href='http://api.oliver.pub/page/hitmouse'>打地鼠</a>
+    <a style="margin-right: 20px "  href='http://api.oliver.pub/page/flybird'>飞行的小鸟</a>
+</div>
+<p style="text-align: center;color: #c338fc;font-size: 30px">-------------------ChatGPT---------------------</p>
+<div>
+    <form action="search" method="POST" novalidate autocomplete="off">
+        <div style="display: flex;align-items: center;justify-content: center">
+            <label for="content" style="font-size: 28px;margin-right: 10px">请提问:</label>
+            <input type="text" name="content" id="content" value="{{.content}}"
+                   style="font-size: 28px;margin-right: 10px"/>
+
+            <input type="submit" value="确定" style="font-size: 22px"/>
+        </div>
+
+
+        <p style="max-width: 70vw;
+                  text-align: center;
+                  margin: 30px auto;
+                  padding: 20px;
+                  border: 2px solid;">{{.data}}</p>
+
+    </form>
+</div>
+<p style="text-align: center;color: #c338fc;font-size: 30px">------------------OpenAI生成AI图片----------------------</p>
+<div style="text-align: center">
+    <form action="createImg" method="POST" novalidate autocomplete="off">
+        <div style="display: flex;align-items: center;justify-content: center">
+            <label for="content" style="font-size: 28px;margin-right: 10px">OpenAI生成图片:</label>
+            <input type="text" name="createImgMsg" id="createImgMsg" value="{{.createImgMsg}}"
+                   style="font-size: 28px;margin-right: 10px"/>
+
+            <input type="submit" value="确定" style="font-size: 22px"/>
+        </div>
+
+    </form>
+    <img src="{{.url}}" style="border: 2px solid;height: 512px;width: 512px; margin: 30px auto;"></img>
+</div>
+
+
+</body>
+
+</html>
