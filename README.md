@@ -4,6 +4,12 @@
 
 ## go-ChatGPT-api 安装
 
+### 演示地址-扫码获取
+
+![img_3.png](img/img_3.png)
+
+![img_4.png](img/img_4.png)
+
 ### 安装方式 
 
 #### 1、clone 项目
