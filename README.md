@@ -10,7 +10,6 @@
 
 ![img_4.png](img/img_4.png)
 
->>>>>>> 47d0eaa1417d9d649630f253aacc61d4d37fa259
 ### 安装方式 
 
 #### 1、clone 项目
