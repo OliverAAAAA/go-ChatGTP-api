@@ -1,12 +1,16 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
+	"go-chatgpt-api/cache"
 	"go-chatgpt-api/config"
+	"go-chatgpt-api/models"
 	"go-chatgpt-api/openai"
 	services "go-chatgpt-api/service"
 	"net/http"
+	"time"
 )
 
 var askLogService services.AskLogService
@@ -57,8 +61,33 @@ func requestOpenAICreateImg(c *gin.Context, content string) (string, error) {
 func AskSearch(c *gin.Context) {
 	content := c.PostForm("content")
 	var result string
+
+	queryLog := askLogService.QueryRecentAsk(&models.AskLog{
+		Request:   content,
+		Method:    "Ask",
+		RequestIp: c.ClientIP(),
+	})
+	if queryLog.Content != "" {
+		log.Printf("%s get data from db. data :%s\n", c.ClientIP(), queryLog.Content)
+		c.HTML(http.StatusOK, "search.html", gin.H{
+			"data":    queryLog.Content,
+			"content": content,
+		})
+		return
+	}
+
+	cacheKey := fmt.Sprintf("%s-%s", c.ClientIP(), content)
+	if _, found := cache.AskRequestLockCache.Get(cacheKey); found {
+		c.HTML(http.StatusOK, "search.html", gin.H{
+			"data":    "你的问题正在请求中,一会再来看看...",
+			"content": content,
+		})
+	}
+
 	if content != "" {
 		var err error
+
+		cache.AskRequestLockCache.Set(cacheKey, 1, 10*60*time.Second)
 		result, err = requestOpenAIChat(c, content)
 		if err != nil {
 			log.Println(err)
@@ -68,6 +97,7 @@ func AskSearch(c *gin.Context) {
 			})
 			return
 		}
+		cache.AskRequestLockCache.Delete(cacheKey)
 	}
 	c.HTML(http.StatusOK, "search.html", gin.H{
 		"data":    result,
