@@ -3,16 +3,19 @@ package web
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/juju/ratelimit"
 	"go-chatgpt-api/config"
 	"go-chatgpt-api/handlers"
 	"go-chatgpt-api/utils/ip"
 	"net/http"
+	"time"
 )
 
 func Init() {
 
 	router := gin.Default()
-
+	gin.ForceConsoleColor()
+	router.Use(RateLimitMiddleware(time.Second, 5, 5))
 	//// # Headers
 	// Allow CORS
 	router.Use(func(c *gin.Context) {
@@ -48,4 +51,16 @@ func Init() {
 	router.POST("/createImg", handlers.CreateImg)
 
 	router.Run(fmt.Sprintf("%s:%s", *config.GetIp(), *config.GetPort()))
+}
+
+func RateLimitMiddleware(fillInterval time.Duration, cap, quantum int64) gin.HandlerFunc {
+	bucket := ratelimit.NewBucketWithQuantum(fillInterval, cap, quantum)
+	return func(c *gin.Context) {
+		if bucket.TakeAvailable(1) < 1 {
+			c.String(http.StatusForbidden, "请求人数过多请稍后再试..")
+			c.Abort()
+			return
+		}
+		c.Next()
+	}
 }

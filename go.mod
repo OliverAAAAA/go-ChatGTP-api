@@ -8,6 +8,7 @@ require (
 	github.com/dchest/captcha v1.0.0
 	github.com/gin-gonic/gin v1.8.2
 	github.com/go-sql-driver/mysql v1.7.0
+	github.com/juju/ratelimit v1.0.2
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/sashabaranov/go-gpt3 v1.0.0
 	github.com/sirupsen/logrus v1.9.0
