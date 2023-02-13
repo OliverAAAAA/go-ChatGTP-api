@@ -68,7 +68,7 @@ func AskSearch(c *gin.Context) {
 		Method:    "Ask",
 		RequestIp: c.ClientIP(),
 	})
-	if queryLog.Content != "" && strings.Contains(queryLog.Content, "error") {
+	if queryLog.Content != "" && !strings.Contains(queryLog.Content, "error") {
 		log.Printf("%s get data from db. data :%s\n", c.ClientIP(), queryLog.Content)
 		c.HTML(http.StatusOK, "search.html", gin.H{
 			"data":    queryLog.Content,
