@@ -10,6 +10,7 @@ import (
 	"go-chatgpt-api/openai"
 	services "go-chatgpt-api/service"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -67,7 +68,7 @@ func AskSearch(c *gin.Context) {
 		Method:    "Ask",
 		RequestIp: c.ClientIP(),
 	})
-	if queryLog.Content != "" {
+	if queryLog.Content != "" && strings.Contains(queryLog.Content, "error") {
 		log.Printf("%s get data from db. data :%s\n", c.ClientIP(), queryLog.Content)
 		c.HTML(http.StatusOK, "search.html", gin.H{
 			"data":    queryLog.Content,
@@ -76,17 +77,17 @@ func AskSearch(c *gin.Context) {
 		return
 	}
 	cacheKey := fmt.Sprintf("ASK_%s-%s", c.ClientIP(), content)
-	cache.AskRequestLockCache.Set(cacheKey, 1, 10*60*time.Second)
+
 	if _, found := cache.AskRequestLockCache.Get(cacheKey); found {
 		c.HTML(http.StatusOK, "search.html", gin.H{
 			"data":    "你的问题正在请求中,一会再来看看...",
 			"content": content,
 		})
+		return
 	}
-
 	if content != "" {
 		var err error
-
+		cache.AskRequestLockCache.Set(cacheKey, 1, 10*60*time.Second)
 		result, err = requestOpenAIChat(c, content)
 		if err != nil {
 			log.Println(err)
@@ -110,10 +111,10 @@ func CreateImg(c *gin.Context) {
 	if content != "" {
 		cacheKey := fmt.Sprintf("CREATE_IMG-%s-%s", c.ClientIP(), content)
 		if left, found := cache.AskRequestLockCache.Get(cacheKey); found {
-			left := left.(int)
-			if left > 0 {
-				cache.AskRequestLockCache.Set(cacheKey, left-1, 10*60*time.Second)
-			} else if left == 0 {
+			left := left.(*int)
+			if *left > 0 {
+				cache.AskRequestLockCache.Set(cacheKey, *left-1, 10*60*time.Second)
+			} else if *left == 0 {
 				c.HTML(http.StatusOK, "search.html", gin.H{
 					"data":    "你的次数用完啦",
 					"content": content,
