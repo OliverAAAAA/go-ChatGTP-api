@@ -1,16 +1,34 @@
-# go-ChatGPT-api 对接chatGPT官方接口服务
+# go-chatgpt-api 对接chatGPT官方接口服务
 
-#### [go-ChatGPT-api](https://github.com/OliverAAAAA/go-ChatGPT-api)  使用golang接入,使用GPT3TextDavinci003模型
+#### [go-chatgpt-api](https://github.com/yuxingfei/beego-admin)  使用golang接入
+#### 支持模型：
+```	
+        GPT432K0314             = "gpt-4-32k-0314"
+	GPT432K                 = "gpt-4-32k"
+	GPT40314                = "gpt-4-0314"
+	GPT4                    = "gpt-4"
+	GPT3Dot5Turbo0301       = "gpt-3.5-turbo-0301"
+	GPT3Dot5Turbo           = "gpt-3.5-turbo"
+	GPT3TextDavinci003      = "text-davinci-003"
+	GPT3TextDavinci002      = "text-davinci-002"
+	GPT3TextCurie001        = "text-curie-001"
+	GPT3TextBabbage001      = "text-babbage-001"
+	GPT3TextAda001          = "text-ada-001"
+	GPT3TextDavinci001      = "text-davinci-001"
+	GPT3DavinciInstructBeta = "davinci-instruct-beta"
+	GPT3Davinci             = "davinci"
+	GPT3CurieInstructBeta   = "curie-instruct-beta"
+	GPT3Curie               = "curie"
+	GPT3Ada                 = "ada"
+	GPT3Babbage             = "babbage"
+	
+```
 
-## go-ChatGPT-api 安装
 
-### 演示地址-扫码获取
 
-![img_3.png](img/img_3.png)
+## ChatGPT-api 安装
 
-![img_4.png](img/img_4.png)
-
-### 安装方式 
+### 安装方式
 
 #### 1、clone 项目
 ```
@@ -37,7 +55,7 @@ go-chatgpt-api目录下 go mod tidy 将自动下载依赖包
 
 #### 运行系统
 ```
-直接运行go run main.go ，或者go build 后 运行restart.sh
+直接运行go run main.go ，或者go build 后运行可执行文件
 ```
 
 #### 访问后台
@@ -46,8 +64,3 @@ go-chatgpt-api目录下 go mod tidy 将自动下载依赖包
 
 ## 效果图
 ![img.png](img/img.png)
-
-
-## 觉得有用，在线乞讨
-![img.png](img/img_0.png)
-![img_1.png](img/img_1.png)
