@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	gogpt "github.com/sashabaranov/go-gpt3"
+	gogpt "github.com/sashabaranov/go-openai"
 	"go-chatgpt-api/cache"
 	"go-chatgpt-api/config"
 	"go-chatgpt-api/models"
@@ -81,6 +81,7 @@ func GetOpenAIClientFromCache(ip string) *gogpt.Client {
 	var openAiClient *gogpt.Client
 	if x, found := cache.OpenAiClientCache.Get(ip); found {
 		openAiClient = x.(*gogpt.Client)
+		log.Printf("ip:%s openAIclient from cache", ip)
 	} else {
 		apiKey := config.GetOpenAiApiKey()
 		if apiKey == nil {
@@ -88,6 +89,7 @@ func GetOpenAIClientFromCache(ip string) *gogpt.Client {
 		}
 		openAiClient = gogpt.NewClient(*apiKey)
 		cache.OpenAiClientCache.Set(ip, openAiClient, 600*time.Second)
+		log.Printf("ip:%s create new openAIclient", ip)
 	}
 	return openAiClient
 }
